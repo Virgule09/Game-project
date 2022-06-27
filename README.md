@@ -1,0 +1,1 @@
+Ideas = add a bonus question at the end of each level (if use images of countries, could be to guess the countrie's name).

@@ -5,36 +5,56 @@ body {
   .board {
     margin-top: 3vh;
     margin-left: 3vw;
-    height: 90vh;
-    width: 90vw;
+    max-height: 90vh;
+    max-width: 90vw;
     border: 5px solid black;
     border-radius: 3%;
-    position: absolute;
-    transform: translate(-50%, -50%);
   }
   
-  .card {
-    position: relative;
+.card {
     transform-style: preserve-3d;
-    transition: all 0.8s ease;
+    transform-origin: center right;
+    transition: transform 1s;
+    display: inline-block;
+}
+
+.card.is-flipped {
+    transform: translateX(-100%) rotateY(-180deg);
   }
-  
-  .front {
-    position: absolute;
+
+.card--image--back {
+    width: 10vw;
+    height: 10vh;
+    border: 2px solid black;
+    max-height: 100%;
+    max-width: auto;
     transform: rotateY(180deg);
+    display: block;
   }
-  
-  .back {
-    position: absolute;
+
+.card--image--front{
+    width: 10vw;
+    height: 10vh;
+    border: 2px solid black;
+    max-height: 100%;
+    max-width: auto;
+    display: none;
   }
+
   
-  #game-over {
+  .game-over {
     position: relative;
     margin : auto;
+    background-color: red;
+    max-width: 30vw;
+    max-height: 30vh;
   }
   
-  #win {
+  .win {
     position: relative;
     margin: auto;
+    background-color: green;
+    max-width: 30vw;
+    max-height: 30vh;
   }
   
