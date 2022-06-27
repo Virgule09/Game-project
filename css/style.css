@@ -1,8 +1,8 @@
 body {
     background-color: beige;
-}
-
-.board {
+  }
+  
+  .board {
     margin-top: 3vh;
     margin-left: 3vw;
     height: 90vh;
@@ -11,19 +11,30 @@ body {
     border-radius: 3%;
     position: absolute;
     transform: translate(-50%, -50%);
-}
-
-.card {
+  }
+  
+  .card {
     position: relative;
     transform-style: preserve-3d;
     transition: all 0.8s ease;
-}
-
-.front {
+  }
+  
+  .front {
     position: absolute;
     transform: rotateY(180deg);
-}
-
-.back {
+  }
+  
+  .back {
     position: absolute;
-}
+  }
+  
+  #game-over {
+    position: relative;
+    margin : auto;
+  }
+  
+  #win {
+    position: relative;
+    margin: auto;
+  }
+  
