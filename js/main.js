@@ -3,24 +3,31 @@ const arrayOfCards = []; // store somewere else
 const arrayOfImages = [
         {Id: "Belgium", img:"Images/belgium.png"},
         {Id: "France", img:"Images/france.png"},
+        {Id: "Belgium", img:"Images/belgium.png"},
         {Id: "Germany", img:"Images/germany.png"},
         {Id: "Italy",img:"Images/italy.png"},
+        {Id: "Italy",img:"Images/italy.png"},
+        {Id: "France", img:"Images/france.png"},
+        {Id: "Italy",img:"Images/italy.png"},
         {Id: "Netherlands", img:"Images/netherlands.png"},
+        {Id: "Germany", img:"Images/germany.png"},
+        {Id: "Portugal", img:"Images/portugal.png"},
         {Id: "Portugal", img:"Images/portugal.png"},
         {Id: "Spain", img:"Images/spain.png"},
+        {Id: "Spain", img:"Images/spain.png"},
+        {Id: "UK", img:"Images/united-kingdom.png"},
         {Id: "UK", img:"Images/united-kingdom.png"}]; // store somewere else
 
 
 class Game {
     constructor() {
-        this.pairs = [];
+        this.pairs = 0;
     }
     start(){
         const card1 = new Card();
-        const card2 = new Card();
         console.log("starting the game");
-
-
+        card1.createEventListener(this.matchCard);
+            
       let counter = 5;
       const intervalId = setInterval(function () {
             counter--;
@@ -37,10 +44,9 @@ class Game {
                 clearInterval(intervalId);
             }*/
       },1000)
-    }
     
       // need to hide/anonymize otherwise we can cheat with the devtools
-    matchCards(card1, card2) {
+    /*matchCards(card1, card2) {
         for (let i=0; i<clickedCards.length;i++){
             if( clickedCards[i] === clickedCards[i+1]) {
                 this.pairs++
@@ -51,43 +57,82 @@ class Game {
             };
         };
         console.log(this.pairs)
-    };
+    };*/
     
       // Display timer
 
       // Next level
         
     }
+    matchCard() {
+    }
+}
 
   
   
   class Card {
     constructor () {
-        this.domElement = this.createDomElement();
+        this.domElement = this.createDomElementDiv();
+        this.backCard = this.createDomElementBackCard();
+        this.frontcard = this.createDomElementFrontCard();
+        this.clickedCards = [];
     }
 
   
-    createDomElement() {
-        let cardsNumber = 8;
-        for (let i=0; i<cardsNumber ; i++) {
-        
-        //Create card div
+    createDomElementDiv() {
         const newElm = document.createElement('div');
         newElm.className = "card";
+        const boardElm = document.getElementById("board"); 
+        boardElm.appendChild(newElm);
+        return newElm;
+    }
         
-        // create back image
+    createDomElementBackCard() {
         const backCard = document.createElement('img');
         backCard.className = "card--image--back";
         backCard.src = "Images/question-mark.png" ; // always the same cover
-        newElm.appendChild(backCard);
-
-        // create front card
+        this.domElement.appendChild(backCard);
+        return backCard
+    }
+    
+    createDomElementFrontCard() {
+        let randomNumber = Math.floor(Math.random() * arrayOfImages.length)
         const frontCard = document.createElement('img');
         frontCard.className = "card--image--front";
-        frontCard.src = arrayOfImages[i]["img"];
-        newElm.setAttribute("id",arrayOfImages[i]["Id"]);
+        frontCard.src = arrayOfImages[randomNumber]["img"];
+        this.domElement.setAttribute("id",arrayOfImages[randomNumber]["Id"]);
+        this.domElement.appendChild(frontCard);
+        return frontCard
+    }
         
-        /* picks a random image from the array without repeating
+    createEventListener() {
+        this.domElement.addEventListener( 'click', function() {
+            if(this.backCard.style.display == "block"){
+                this.backCard.style.display = "none";
+                this.frontCard.style.display = "block";
+            }
+            else {
+                this.backCard.style.display = "block";
+                this.frontCard.style.display = "none";
+            };
+            match();
+        });
+    }
+        }
+
+    
+
+    
+    
+  
+  
+  const game = new Game();
+  game.start();
+
+
+
+
+  /* picks a random image from the array without repeating
         frontCard.src = "";
         function noRepeat(arrayOfImages) {
             let copy = arrayOfImages.slice(0);
@@ -102,46 +147,3 @@ class Game {
         }
         const chooser = noRepeat(arrayOfImages)
         frontCard.src = chooser();*/
-
-        newElm.appendChild(frontCard);
-
-        // flip the cards on click
-        newElm.addEventListener( 'click', function() {
-            if(backCard.style.display == "block"){
-                backCard.style.display = "none";
-                frontCard.style.display = "block";
-            }
-            else {
-                backCard.style.display = "block";
-                frontCard.style.display = "none";
-            }
-       
-        const clickedCards = [];
-        clickedCards.push(newElm.getAttribute("Id"));
-        function matchCards(card1, card2) {
-            for (let i=0; i<clickedCards.length;i++){
-                if( clickedCards[i] === clickedCards[i+1]) {
-                    this.pairs++
-                }
-                else {
-                    card1.backcard.style.display = block;
-                    card2.backcard.style.display = block;
-                };
-            };
-            console.log(this.pairs)
-        };
-        });
-        
-        //append new div with the back and front to the board
-        const boardElm = document.getElementById("board"); 
-        boardElm.appendChild(newElm);
-  
-          // need to push the two cards created at random positions in the array
-        }
-    }
-    
-    
-  }
-  
-  const game = new Game();
-  game.start();
