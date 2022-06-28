@@ -1,5 +1,5 @@
 
-const arrayOfCards = []; // store somewere else
+const arrayOfCards = []; // store somewhere else
 const arrayOfImages = [
         {Id: "Belgium", img:"Images/belgium.png"},
         {Id: "France", img:"Images/france.png"},
@@ -16,7 +16,8 @@ const arrayOfImages = [
         {Id: "Spain", img:"Images/spain.png"},
         {Id: "Spain", img:"Images/spain.png"},
         {Id: "UK", img:"Images/united-kingdom.png"},
-        {Id: "UK", img:"Images/united-kingdom.png"}]; // store somewere else
+        {Id: "UK", img:"Images/united-kingdom.png"}
+    ]; // store somewhere else
 
 
 class Game {
@@ -24,9 +25,10 @@ class Game {
         this.pairs = 0;
     }
     start(){
-        const card1 = new Card();
+        this.createCards();
+        this.assignEventListeners();
         console.log("starting the game");
-        card1.createEventListener(this.matchCard);
+        console.log(arrayOfCards);
             
       let counter = 5;
       const intervalId = setInterval(function () {
@@ -64,8 +66,33 @@ class Game {
       // Next level
         
     }
-    matchCard() {
+
+    createCards () {
+        for(let i=0; i<16; i++){
+            const card = new Card();
+            arrayOfCards.push(card);
+        }
     }
+
+    assignEventListeners () {
+        for(let i=0; i<16; i++){
+        arrayOfCards[i].createEventListener();
+        }
+    }
+
+    
+
+     isPair(card1, card2) {
+         if(card1.id === card2.id){
+
+         }
+         else if (card1.div != card2.div) {
+            card1.style.display = "none";
+            card2.style.display = "none";
+         };
+     }
+
+   
 }
 
   
@@ -74,9 +101,8 @@ class Game {
     constructor () {
         this.domElement = this.createDomElementDiv();
         this.backCard = this.createDomElementBackCard();
-        this.frontcard = this.createDomElementFrontCard();
-        this.clickedCards = [];
-    }
+        this.frontCard = this.createDomElementFrontCard();
+    };
 
   
     createDomElementDiv() {
@@ -85,46 +111,43 @@ class Game {
         const boardElm = document.getElementById("board"); 
         boardElm.appendChild(newElm);
         return newElm;
-    }
+    };
         
     createDomElementBackCard() {
         const backCard = document.createElement('img');
         backCard.className = "card--image--back";
         backCard.src = "Images/question-mark.png" ; // always the same cover
+        backCard.setAttribute("display", "block");
         this.domElement.appendChild(backCard);
         return backCard
-    }
+    };
     
     createDomElementFrontCard() {
-        let randomNumber = Math.floor(Math.random() * arrayOfImages.length)
+        const randomNumber = Math.floor(Math.random() * arrayOfImages.length)
         const frontCard = document.createElement('img');
         frontCard.className = "card--image--front";
         frontCard.src = arrayOfImages[randomNumber]["img"];
+        frontCard.setAttribute("display", "none");
         this.domElement.setAttribute("id",arrayOfImages[randomNumber]["Id"]);
         this.domElement.appendChild(frontCard);
         return frontCard
-    }
+    };
         
     createEventListener() {
-        this.domElement.addEventListener( 'click', function() {
-            if(this.backCard.style.display == "block"){
-                this.backCard.style.display = "none";
-                this.frontCard.style.display = "block";
-            }
-            else {
-                this.backCard.style.display = "block";
-                this.frontCard.style.display = "none";
-            };
-            match();
+        this.domElement.addEventListener( 'click', () => {
+
+            if(this.backCard.style.display === "block"){
+                 this.backCard.style.display = "none";
+                 this.frontCard.style.display = "block";
+             }
+             else {
+                 this.backCard.style.display = "block";
+                 this.frontCard.style.display = "none";
+             };
         });
-    }
-        }
+    };
+}
 
-    
-
-    
-    
-  
   
   const game = new Game();
   game.start();
