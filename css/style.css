@@ -2,7 +2,7 @@ body {
     background-color: beige;
   }
   
-  .board {
+  #board {
     margin-top: 3vh;
     margin-left: 3vw;
     max-height: 90vh;
@@ -22,27 +22,25 @@ body {
     transform: translateX(-100%) rotateY(-180deg);
   }
 
-.card--image--back {
+.card--image--back, .card--image--front  {
     width: 10vw;
     height: 10vh;
     border: 2px solid black;
     max-height: 100%;
     max-width: auto;
     transform: rotateY(180deg);
-    display: block;
   }
 
+.card--image--back {
+    display: block;
+}
+
 .card--image--front{
-    width: 10vw;
-    height: 10vh;
-    border: 2px solid black;
-    max-height: 100%;
-    max-width: auto;
     display: none;
   }
 
   
-  .game-over {
+.game-over {
     position: relative;
     margin : auto;
     background-color: red;
@@ -50,7 +48,7 @@ body {
     max-height: 30vh;
   }
   
-  .win {
+.win {
     position: relative;
     margin: auto;
     background-color: green;
