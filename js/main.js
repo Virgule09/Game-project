@@ -18,6 +18,7 @@ const arrayOfImages = [
         {Id: "UK", img:"Images/united-kingdom.png"},
         {Id: "UK", img:"Images/united-kingdom.png"}
     ]; // store somewhere else
+const clickedCards = []; // store somewhere else
 
 
 class Game {
@@ -28,7 +29,6 @@ class Game {
         this.createCards();
         this.assignEventListeners();
         console.log("starting the game");
-        console.log(arrayOfCards);
             
       let counter = 5;
       const intervalId = setInterval(function () {
@@ -39,30 +39,18 @@ class Game {
                 board.appendChild(gameOverMessage);
                 clearInterval(intervalId)
             }
-            /*else if (document.querySelectorAll("img front").length === arrayOfCards.length) {
-                const congratulationsMessage = document.createElement("div");
-                congratulationsMessage.className = "win";
-                board.appendChild(congratulationsMessage);
-                clearInterval(intervalId);
-            }*/
+            // else if (document.querySelectorAll("img front").length === arrayOfCards.length) {
+            //     const congratulationsMessage = document.createElement("div");
+            //     congratulationsMessage.className = "win";
+            //     board.appendChild(congratulationsMessage);
+            //     clearInterval(intervalId);
+            // }
       },1000)
-    
-      // need to hide/anonymize otherwise we can cheat with the devtools
-    /*matchCards(card1, card2) {
-        for (let i=0; i<clickedCards.length;i++){
-            if( clickedCards[i] === clickedCards[i+1]) {
-                this.pairs++
-            }
-            else {
-                card1.backcard.style.display = block;
-                card2.backcard.style.display = block;
-            };
-        };
-        console.log(this.pairs)
-    };*/
-    
-      // Display timer
 
+    //this.isPair();
+
+      // need to hide/anonymize otherwise we can cheat with the devtools
+      // Display timer
       // Next level
         
     }
@@ -80,17 +68,19 @@ class Game {
         }
     }
 
-    
-
-     isPair(card1, card2) {
-         if(card1.id === card2.id){
-
-         }
-         else if (card1.div != card2.div) {
-            card1.style.display = "none";
-            card2.style.display = "none";
-         };
-     }
+      isPair() {
+            for (let i=0; i<clickedCards.length; i++) {
+            console.log(clickedCards[i].id)
+             if(clickedCards[i].id === clickedCards[i+1].id){
+                 this.pairs++;
+                 console.log(this.pairs)
+             }
+             else if (clickedCards[i].div != clickedCards[i+1].div) {
+                //card1.style.display = "none";
+                //card2.style.display = "none";
+             };
+         } 
+      }
 
    
 }
@@ -135,10 +125,12 @@ class Game {
         
     createEventListener() {
         this.domElement.addEventListener( 'click', () => {
-
             if(this.backCard.style.display === "block"){
                  this.backCard.style.display = "none";
                  this.frontCard.style.display = "block";
+                clickedCards.push(this.domElement);
+                // game.isPair();
+                console.log(clickedCards);
              }
              else {
                  this.backCard.style.display = "block";
