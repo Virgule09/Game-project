@@ -1,43 +1,45 @@
 
 const arrayOfCards = []; // store somewhere else
 const arrayOfImages = [
-        {Id: "Belgium", img:"Images/belgium.png"},
-        {Id: "France", img:"Images/france.png"},
-        {Id: "Belgium", img:"Images/belgium.png"},
-        {Id: "Germany", img:"Images/germany.png"},
-        {Id: "Italy",img:"Images/italy.png"},
-        {Id: "Italy",img:"Images/italy.png"},
-        {Id: "France", img:"Images/france.png"},
-        {Id: "Italy",img:"Images/italy.png"},
-        {Id: "Netherlands", img:"Images/netherlands.png"},
-        {Id: "Germany", img:"Images/germany.png"},
-        {Id: "Portugal", img:"Images/portugal.png"},
-        {Id: "Portugal", img:"Images/portugal.png"},
-        {Id: "Spain", img:"Images/spain.png"},
-        {Id: "Spain", img:"Images/spain.png"},
-        {Id: "UK", img:"Images/united-kingdom.png"},
-        {Id: "UK", img:"Images/united-kingdom.png"}
+        {Id: "Belgium", img:"./Images/belgium.png"},
+        {Id: "France", img:"./Images/france.png"},
+        {Id: "Belgium", img:"./Images/belgium.png"},
+        {Id: "Germany", img:"./Images/germany.png"},
+        {Id: "Italy",img:"./Images/italy.png"},
+        {Id: "Italy",img:"./Images/italy.png"},
+        {Id: "France", img:"./Images/france.png"},
+        {Id: "Italy",img:"./Images/italy.png"},
+        {Id: "Netherlands", img:"./Images/netherlands.png"},
+        {Id: "Germany", img:"./Images/germany.png"},
+        {Id: "Portugal", img:"./Images/portugal.png"},
+        {Id: "Portugal", img:"./Images/portugal.png"},
+        {Id: "Spain", img:"./Images/spain.png"},
+        {Id: "Spain", img:"./Images/spain.png"},
+        {Id: "UK", img:"./Images/united-kingdom.png"},
+        {Id: "UK", img:"./Images/united-kingdom.png"}
     ]; // store somewhere else
-const clickedCards = []; // store somewhere else
-
+let clickedCardsFront = []; // store somewhere else
+let clickedCardsBack = [];
+let pairs = 0; // store somewhere else
 
 class Game {
     constructor() {
-        this.pairs = 0;
+        this.counter = 120;
     }
     start(){
         this.createCards();
         this.assignEventListeners();
         console.log("starting the game");
             
-      let counter = 5;
-      const intervalId = setInterval(function () {
-            counter--;
-            if (counter === 0){
-                const gameOverMessage = document.createElement("div");
-                gameOverMessage.className = "game-over";
-                board.appendChild(gameOverMessage);
-                clearInterval(intervalId)
+      
+      const intervalId = setInterval( () => {
+            this.counter--;
+            const timerId = document.getElementById("timer");
+            timerId.innerText = `${this.counter}`;
+            // this.createTimer(counter) = this.counter;
+            if (this.counter === 0){
+                this.gameOver();
+                clearInterval(intervalId);
             }
             // else if (document.querySelectorAll("img front").length === arrayOfCards.length) {
             //     const congratulationsMessage = document.createElement("div");
@@ -46,8 +48,6 @@ class Game {
             //     clearInterval(intervalId);
             // }
       },1000)
-
-    //this.isPair();
 
       // need to hide/anonymize otherwise we can cheat with the devtools
       // Display timer
@@ -69,19 +69,34 @@ class Game {
     }
 
       isPair() {
-            for (let i=0; i<clickedCards.length; i++) {
-            console.log(clickedCards[i].id)
-             if(clickedCards[i].id === clickedCards[i+1].id){
-                 this.pairs++;
-                 console.log(this.pairs)
+        console.log(clickedCardsFront[0]);
+        console.log(clickedCardsFront[1])
+             if(clickedCardsFront[0].src === clickedCardsFront[1].src){
+                pairs++;
              }
-             else if (clickedCards[i].div != clickedCards[i+1].div) {
-                //card1.style.display = "none";
-                //card2.style.display = "none";
-             };
+            else {
+                 clickedCardsFront[0].style.display = "none";
+                 clickedCardsFront[1].style.display = "none";
+                 clickedCardsBack[0].style.display = "block";
+                 clickedCardsBack[1].style.display ="block"
+               };
          } 
-      }
+    
+    // createTimer () {
+    //     const Timer = document.createElement("div");
+    //     Timer.className = "timer";
+    //     const TimerText = document.createTextNode(`${this.counter}`);
+    //     console.log(TimerText)
+    //     Timer.appendChild(TimerText);
+    //     const Board = document.getElementById("board");
+    //     Board.appendChild(Timer);
+    // }
 
+    gameOver () {
+        const gameOverMessage = document.createElement("div");
+        gameOverMessage.className = "game-over";
+        board.appendChild(gameOverMessage);
+    }
    
 }
 
@@ -106,11 +121,12 @@ class Game {
     createDomElementBackCard() {
         const backCard = document.createElement('img');
         backCard.className = "card--image--back";
-        backCard.src = "Images/question-mark.png" ; // always the same cover
-        backCard.setAttribute("display", "block");
+        backCard.src = "./Images/question-mark.png" ; // always the same cover
+        // backCard.setAttribute("display", "block");
         this.domElement.appendChild(backCard);
-        return backCard
+        return backCard 
     };
+    
     
     createDomElementFrontCard() {
         const randomNumber = Math.floor(Math.random() * arrayOfImages.length)
@@ -128,9 +144,16 @@ class Game {
             if(this.backCard.style.display === "block"){
                  this.backCard.style.display = "none";
                  this.frontCard.style.display = "block";
-                clickedCards.push(this.domElement);
-                // game.isPair();
-                console.log(clickedCards);
+                clickedCardsFront.push(this.frontCard);
+                clickedCardsBack.push(this.backCard);
+                console.log(this.frontCard);
+                if (clickedCardsFront.length === 2){
+                    console.log("works when array is 2")
+                    game.isPair();
+                    clickedCardsFront = [];
+                    clickedCardsBack = [];
+                    console.log(pairs)
+                }
              }
              else {
                  this.backCard.style.display = "block";

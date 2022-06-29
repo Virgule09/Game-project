@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: beige;
   }
   
   #board {
@@ -54,5 +54,15 @@ body {
     background-color: green;
     max-width: 30vw;
     max-height: 30vh;
+  }
+
+  .timer {
+    position : relative;
+    margin: auto;
+    background-color: blue;
+    width: 50vw;
+    height : 10vh;
+    font-size: 20px;
+    color: white;
   }
   
