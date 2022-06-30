@@ -25,12 +25,11 @@ let randomNumbersArr = [];
 
 class Game {
     constructor() {
-        this.counter = 5;
+        this.counter = 120;
     }
     start(){
         this.createCards();
         this.assignEventListeners();
-        console.log("starting the game");
             
       
       const intervalId = setInterval( () => {
@@ -38,7 +37,6 @@ class Game {
             const timerId = document.getElementById("timer");
             timerId.innerText = `${this.counter}`;
             if (this.counter === 0){
-                console.log("gameover")
                 this.gameOver();
                 clearInterval(intervalId);
             }
@@ -66,16 +64,19 @@ class Game {
     }
 
       isPair() {
-        console.log(clickedCardsFront[0]);
-        console.log(clickedCardsFront[1])
              if(clickedCardsFront[0].src === clickedCardsFront[1].src){
                 pairs++;
              }
             else {
-                 clickedCardsFront[0].style.display = "none";
-                 clickedCardsFront[1].style.display = "none";
-                 clickedCardsBack[0].style.display = "block";
-                 clickedCardsBack[1].style.display ="block"
+                setTimeout( () => {
+                clickedCardsFront[0].style.display = "none";
+                clickedCardsFront[1].style.display = "none";
+                clickedCardsBack[0].style.display = "block";
+                clickedCardsBack[1].style.display ="block";
+                clickedCardsFront = [];
+                clickedCardsBack = [];
+            },2000)
+                    
                };
          } 
 
@@ -94,7 +95,7 @@ class Game {
     congratulations () {
       const congratulations = document.createElement("div");
       congratulations.className = "congratulations";
-      const congratsMessage = document.createTextNode("Congratulations !!! You find all the pairs.");
+      const congratsMessage = document.createTextNode("Congratulations !!! You found all the pairs.");
       congratulations.appendChild(congratsMessage);
       board.appendChild(congratulations);
     }
@@ -143,20 +144,16 @@ class Game {
         this.domElement.addEventListener( 'click', () => {
            
             if(this.backCard.style.display === "block"){
-                 this.backCard.style.display = "none";
-                 this.frontCard.style.display = "block";
+                  this.backCard.style.display = "none";
+                  this.frontCard.style.display = "block";
                 clickedCardsFront.push(this.frontCard);
                 clickedCardsBack.push(this.backCard);
                 if (clickedCardsFront.length === 2){
-                    console.log("works when array is 2")
                     game.isPair();
-                    clickedCardsFront = [];
-                    clickedCardsBack = [];
                 }
              }
              else {
                  setTimeout( () => {
-                    console.log("setting timeout");
                     this.backCard.style.display = "block";
                     this.frontCard.style.display = "none";
                  },2000)

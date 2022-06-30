@@ -1,15 +1,15 @@
 body {
     background-color: beige;
+    background-image: url("../Images/world-map.png") ;
   }
   
   #board {
     margin-top: 3vh;
     margin-left: 3vw;
-    height: 90vh;
+    height: 92vh;
     max-width: 90vw;
     border: 5px solid black;
     border-radius: 3%;
-    background-image: url("./Images/world-map.png") ;
   }
   
   .card {
@@ -19,18 +19,19 @@ body {
     display: inline-block;
   }
   
-  .card.is-flipped {
+  .is-flipped {
     transform: translateX(-100%) rotateY(-180deg);
   }
   
   .card--image--back, .card--image--front  {
     width: 14vw;
-    height: 14vh;
+    height: 17vh;
     border: 2px solid black;
     max-height: 100%;
     max-width: auto;
     transform: rotateY(180deg);
     margin: 3px;
+    background-color: white;
   }
   
   .card--image--back {
