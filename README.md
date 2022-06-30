@@ -8,4 +8,4 @@ Hope you'll enjoy it !
 
 ********************************
 
-Link to the game : https://virgule09.github.io/geography-memory/game.html
+Link to the game : https://virgule09.github.io/geography-memory/
