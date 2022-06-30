@@ -8,7 +8,7 @@ const arrayOfImages = [
         {Id: "Italy",img:"./Images/italy.png"},
         {Id: "Italy",img:"./Images/italy.png"},
         {Id: "France", img:"./Images/france.png"},
-        {Id: "Italy",img:"./Images/italy.png"},
+        {Id: "Netherlands",img:"./Images/netherlands.png"},
         {Id: "Netherlands", img:"./Images/netherlands.png"},
         {Id: "Germany", img:"./Images/germany.png"},
         {Id: "Portugal", img:"./Images/portugal.png"},
@@ -21,10 +21,11 @@ const arrayOfImages = [
 let clickedCardsFront = []; // store somewhere else
 let clickedCardsBack = [];
 let pairs = 0; // store somewhere else
+let randomNumbersArr = [];
 
 class Game {
     constructor() {
-        this.counter = 120;
+        this.counter = 5;
     }
     start(){
         this.createCards();
@@ -36,28 +37,24 @@ class Game {
             this.counter--;
             const timerId = document.getElementById("timer");
             timerId.innerText = `${this.counter}`;
-            // this.createTimer(counter) = this.counter;
             if (this.counter === 0){
+                console.log("gameover")
                 this.gameOver();
                 clearInterval(intervalId);
             }
-            // else if (document.querySelectorAll("img front").length === arrayOfCards.length) {
-            //     const congratulationsMessage = document.createElement("div");
-            //     congratulationsMessage.className = "win";
-            //     board.appendChild(congratulationsMessage);
-            //     clearInterval(intervalId);
-            // }
+            else if (pairs === 8) {
+              this.congratulations();
+              clearInterval(intervalId);
+            }
       },1000)
 
-      // need to hide/anonymize otherwise we can cheat with the devtools
-      // Display timer
       // Next level
         
     }
 
     createCards () {
         for(let i=0; i<16; i++){
-            const card = new Card();
+            const card = new Card(i);
             arrayOfCards.push(card);
         }
     }
@@ -81,21 +78,25 @@ class Game {
                  clickedCardsBack[1].style.display ="block"
                };
          } 
-    
-    // createTimer () {
-    //     const Timer = document.createElement("div");
-    //     Timer.className = "timer";
-    //     const TimerText = document.createTextNode(`${this.counter}`);
-    //     console.log(TimerText)
-    //     Timer.appendChild(TimerText);
-    //     const Board = document.getElementById("board");
-    //     Board.appendChild(Timer);
-    // }
 
     gameOver () {
-        const gameOverMessage = document.createElement("div");
-        gameOverMessage.className = "game-over";
-        board.appendChild(gameOverMessage);
+        const gameOver = document.createElement("div");
+        gameOver.className = "game-over";
+        const gameOverMessage = document.createTextNode("Time's up ! Unfortunately you didn't find all the pairs before the end of the countdown. Better luck next time");
+        gameOver.appendChild(gameOverMessage);
+        const tryAgainButton = document.createElement("button");
+        tryAgainButton.type = "button";
+        tryAgainButton.innerHTML = "Try again";
+        //gameOverMessage.appendChild(tryAgainButton);
+        board.appendChild(gameOver);
+    }
+
+    congratulations () {
+      const congratulations = document.createElement("div");
+      congratulations.className = "congratulations";
+      const congratsMessage = document.createTextNode("Congratulations !!! You find all the pairs.");
+      congratulations.appendChild(congratsMessage);
+      board.appendChild(congratulations);
     }
    
 }
@@ -103,10 +104,10 @@ class Game {
   
   
   class Card {
-    constructor () {
+    constructor (index) {
         this.domElement = this.createDomElementDiv();
         this.backCard = this.createDomElementBackCard();
-        this.frontCard = this.createDomElementFrontCard();
+        this.frontCard = this.createDomElementFrontCard(index);
     };
 
   
@@ -122,42 +123,43 @@ class Game {
         const backCard = document.createElement('img');
         backCard.className = "card--image--back";
         backCard.src = "./Images/question-mark.png" ; // always the same cover
-        // backCard.setAttribute("display", "block");
+        backCard.style.display = "block";
         this.domElement.appendChild(backCard);
         return backCard 
     };
     
     
-    createDomElementFrontCard() {
-        const randomNumber = Math.floor(Math.random() * arrayOfImages.length)
+    createDomElementFrontCard(index) {
         const frontCard = document.createElement('img');
         frontCard.className = "card--image--front";
-        frontCard.src = arrayOfImages[randomNumber]["img"];
-        frontCard.setAttribute("display", "none");
-        this.domElement.setAttribute("id",arrayOfImages[randomNumber]["Id"]);
+        frontCard.src = arrayOfImages[index]["img"];
+        frontCard.style.display = "none";
+        this.domElement.setAttribute("id",arrayOfImages[index]["Id"]);
         this.domElement.appendChild(frontCard);
         return frontCard
     };
         
     createEventListener() {
         this.domElement.addEventListener( 'click', () => {
+           
             if(this.backCard.style.display === "block"){
                  this.backCard.style.display = "none";
                  this.frontCard.style.display = "block";
                 clickedCardsFront.push(this.frontCard);
                 clickedCardsBack.push(this.backCard);
-                console.log(this.frontCard);
                 if (clickedCardsFront.length === 2){
                     console.log("works when array is 2")
                     game.isPair();
                     clickedCardsFront = [];
                     clickedCardsBack = [];
-                    console.log(pairs)
                 }
              }
              else {
-                 this.backCard.style.display = "block";
-                 this.frontCard.style.display = "none";
+                 setTimeout( () => {
+                    console.log("setting timeout");
+                    this.backCard.style.display = "block";
+                    this.frontCard.style.display = "none";
+                 },2000)
              };
         });
     };
@@ -166,22 +168,3 @@ class Game {
   
   const game = new Game();
   game.start();
-
-
-
-
-  /* picks a random image from the array without repeating
-        frontCard.src = "";
-        function noRepeat(arrayOfImages) {
-            let copy = arrayOfImages.slice(0);
-            console.log(copy)
-            return function () {
-                if(copy.length < 1) { copy = arrayOfImages.slice(0)}
-                let index = Math.floor(Math.random() * copy.length);
-                let item = copy[index];
-                copy.slice(index, 1);
-                return item;
-            };
-        }
-        const chooser = noRepeat(arrayOfImages)
-        frontCard.src = chooser();*/
