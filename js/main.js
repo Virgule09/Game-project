@@ -2,20 +2,20 @@
 const arrayOfCards = []; // store somewhere else
 const arrayOfImages = [
         {Id: "Belgium", img:"./Images/belgium.png"},
+        {Id: "UK", img:"./Images/united-kingdom.png"},
         {Id: "France", img:"./Images/france.png"},
         {Id: "Belgium", img:"./Images/belgium.png"},
         {Id: "Germany", img:"./Images/germany.png"},
         {Id: "Italy",img:"./Images/italy.png"},
-        {Id: "Italy",img:"./Images/italy.png"},
         {Id: "France", img:"./Images/france.png"},
         {Id: "Netherlands",img:"./Images/netherlands.png"},
+        {Id: "Italy",img:"./Images/italy.png"},
         {Id: "Netherlands", img:"./Images/netherlands.png"},
         {Id: "Germany", img:"./Images/germany.png"},
         {Id: "Portugal", img:"./Images/portugal.png"},
+        {Id: "Spain", img:"./Images/spain.png"},
         {Id: "Portugal", img:"./Images/portugal.png"},
         {Id: "Spain", img:"./Images/spain.png"},
-        {Id: "Spain", img:"./Images/spain.png"},
-        {Id: "UK", img:"./Images/united-kingdom.png"},
         {Id: "UK", img:"./Images/united-kingdom.png"}
     ]; // store somewhere else
 let clickedCardsFront = []; // store somewhere else
@@ -28,6 +28,7 @@ class Game {
         this.counter = 120;
     }
     start(){
+        this.shuffleArray();
         this.createCards();
         this.assignEventListeners();
             
@@ -66,6 +67,8 @@ class Game {
       isPair() {
              if(clickedCardsFront[0].src === clickedCardsFront[1].src){
                 pairs++;
+                clickedCardsFront = [];
+                clickedCardsBack = [];
              }
             else {
                 setTimeout( () => {
@@ -98,6 +101,13 @@ class Game {
       const congratsMessage = document.createTextNode("Congratulations !!! You found all the pairs.");
       congratulations.appendChild(congratsMessage);
       board.appendChild(congratulations);
+    }
+
+    shuffleArray () {
+        for (let i = arrayOfImages.length -1; i>0; i--) {
+            let j = Math.floor(Math.random() * (i+1));
+            [arrayOfImages[i], arrayOfImages[j]] = [arrayOfImages[j], arrayOfImages[i]];
+        }
     }
    
 }
@@ -152,12 +162,6 @@ class Game {
                     game.isPair();
                 }
              }
-             else {
-                 setTimeout( () => {
-                    this.backCard.style.display = "block";
-                    this.frontCard.style.display = "none";
-                 },2000)
-             };
         });
     };
 }
