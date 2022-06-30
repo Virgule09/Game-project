@@ -2,7 +2,7 @@ body {
     background-color: beige;
   }
   
-  #board {
+  #board, #main {
     margin-top: 3vh;
     margin-left: 3vw;
     height: 82vh;
@@ -13,14 +13,7 @@ body {
   }
   
   .card {
-    transform-style: preserve-3d;
-    transform-origin: center right;
-    transition: transform 1s;
     display: inline-block;
-  }
-  
-  .is-flipped {
-    transform: translateX(-100%) rotateY(-180deg);
   }
   
   .card--image--back, .card--image--front  {
@@ -31,14 +24,6 @@ body {
     max-width: auto;
     margin: 3px;
     background-color: white;
-  }
-  
-  .card--image--back {
-
-  }
-  
-  .card--image--front{
-     
   }
   
   
@@ -76,4 +61,20 @@ body {
     color: white;
     text-align: center;
     margin-bottom: 10px;
+  }
+
+  #main {
+    text-align: center;
+    font-size: 30px;
+    padding: 30px;
+  }
+
+  #button {
+    font-size: 30px;
+    background-color: blue;
+    border-radius: 5px;
+  }
+
+  a {
+    color: white;
   }
